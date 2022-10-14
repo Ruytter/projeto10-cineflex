@@ -88,7 +88,6 @@ function Assentos() {
   if (newback.length === 0) {
     setNewback(back);
   }
-  console.log(assentos.name)
   return (
     <>
       <Divassentos>
