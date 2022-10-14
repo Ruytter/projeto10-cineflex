@@ -17,7 +17,7 @@ function App() {
             <Route path="/" element={<FilmeContainer />} />
             <Route path="/sessao/:movieId" element={<Sessao />} />
             <Route path="/sessao/:movieId/assentos/:sectionId" element={<Assentos />} />
-            <Route path="/sessao/:movieId/assentos/:sectionId/concluido/:ids" element={<Concluido/>} />
+            <Route path="/sessao/:movieId/assentos/:sectionId/concluido/:filme/:dia/:hora/:nome/:cpf/:assentos" element={<Concluido/>} />
         </Routes>
       </Appcontainer>
     </BrowserRouter>

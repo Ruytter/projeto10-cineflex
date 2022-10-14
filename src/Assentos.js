@@ -14,6 +14,7 @@ function Assentos() {
   const [assentos, setAssentos] = useState([]);
   const [newback, setNewback] = useState([]);
   const [assentosselecionados, setAssentosselecionados] = useState([]);
+  const [seats, setSeats] = useState([]);
   const back = [];
   const titulo = <p>Selecione o(s) assento(s)</p>;
   useEffect(() => {
@@ -39,17 +40,35 @@ function Assentos() {
 
   function selectedSeats(assento) {
     const back2 = [...newback];
-    if (back2[assento - 1].backgroundColor === "#FBE192") {
-      return;
+    if (back2[assento - 1].backgroundColor !== "#FBE192") {
+      if (back2[assento - 1].backgroundColor !== verdeescuro) {
+        const selecionado = [...assentosselecionados];
+        const seat = [...seats];
+        selecionado.push(assentos.seats[assento - 1].id);
+        seat.push(assentos.seats[assento - 1].name);
+        setAssentosselecionados(selecionado);
+        setSeats(seat);
+        back2[assento - 1] = {
+          backgroundColor: verdeescuro,
+          border: "1px solid #0E7D71",
+        };
+        setNewback(back2);
+      } else {
+        const selecionado = assentosselecionados.filter(
+          (id) => id !== assentos.seats[assento - 1].id
+        );
+        const seat = seats.filter(
+          (name) => name !== assentos.seats[assento - 1].name
+        );
+        setAssentosselecionados(selecionado);
+        setSeats(seat);
+        back2[assento - 1] = {
+          backgroundColor: "#C3CFD9",
+          border: "1px solid #808F9D",
+        };
+        setNewback(back2);
+      }
     }
-    const selecionado = [...assentosselecionados];
-    selecionado.push(assentos.seats[assento-1].id);
-    setAssentosselecionados(selecionado);
-    back2[assento - 1] = {
-      backgroundColor: verdeescuro,
-      border: "1px solid #0E7D71",
-    };
-    setNewback(back2);
   }
   if (back.length === 0) {
     assentos.seats.forEach((seat) => {
@@ -99,7 +118,13 @@ function Assentos() {
           <p>Indisponível</p>
         </div>
       </Divindicadores>
-      <Reservar assentosselecionados={assentosselecionados}/>
+      <Reservar
+        ids={assentosselecionados}
+        day={assentos.day}
+        movie={assentos.movie}
+        hora={assentos.name}
+        seats={seats}
+      />
       <Footer
         posterURL={assentos.movie.posterURL}
         fTitle={assentos.movie.title}

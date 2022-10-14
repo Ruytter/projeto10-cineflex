@@ -1,38 +1,36 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 function Reservar(props) {
-  const{assentosselecionados}=props
+  const{ids, day, movie, hora, seats}=props
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
-
-  // function concluirReserva(e) {
-  //   e.preventDefault();
-  //   const URL =
-  //     "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
-
-  //   const body = {
-  //     ids: [1, 2, 3],
-  //     name: { name },
-  //     cpf: { cpf },
-  //   };
-
-  //   const promise = axios.post(URL, body);
-  //   promise.then((data) => {
-  //     console.log(data);
-  //     navigate("/sessoes/assentos/concluido");
-  //   });
-
-  //   promise.catch((err) => {
-  //     console.log(err);
-  //   });
-  // }
-
+  const navigate = useNavigate();
+  let dia = day.date.replaceAll("/", ".");
+  function concluirReserva(e) {
+     e.preventDefault();
+     if(ids.length === 0){
+     return alert ("Selecione pelo menos um assento")
+     }
+     const URL =
+          "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
+    const body = {
+      ids: ids,
+      name:name,
+      cpf: cpf
+    };
+    const promise = axios.post(URL, body);
+    promise.then((data) => {
+    navigate(`concluido/${movie.title}/${dia}/${hora}/${name}/${cpf}/${seats}`);
+     });
+    promise.catch((err) => {
+      console.log(err);
+    });
+  }
   return (
     <Reservarassento>
-      <form>
+      <form onSubmit={concluirReserva}>
         <div>
           <label htmlFor="nome">Nome do comprador</label>
           <input
@@ -56,9 +54,7 @@ function Reservar(props) {
           />
         </div>
         <div className="submit_reserva">
-          <Link to={`concluido/${assentosselecionados}`} >
-            <button type="submit">Reservar assento(s)</button>
-          </Link>
+            <button type="submit" >Reservar assento(s)</button>
         </div>
       </form>
     </Reservarassento>

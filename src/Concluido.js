@@ -1,13 +1,13 @@
 import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Titulo from "./Titulo";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import cores from "./cores";
+import Seat from "./Seats";
 function Concluido() {
-  const { ids } = useParams();
+  const { filme, dia, hora, nome, cpf, assentos } = useParams();
+  const seats = assentos.split(",")
   const {verdeclaro}= cores
   const navigate = useNavigate()
   const titulo = (
@@ -17,43 +17,34 @@ function Concluido() {
       com sucesso!
     </p>
   );
-  // useEffect(() => {
-  //   const dados = {
-  //     ids: ids,
-  //     name: "Fulano",
-  //     cpf: "12345678900"
-  //   };
-  //   const requisicao = axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many', dados);
-    
-  //   requisicao.then(tratarSucesso);
-  //   requisicao.catch(tratarError);
-  // }, []);
+  let diaD = dia.replaceAll(".", "/");
 
-
-  //console.log(props.filme)
   return (
     <Divconcluido>
       <Titulo titulo={titulo} cor={verdeclaro} />
       <div>
         <h2>Filme e sessão</h2>
         <h4>
-          Enola Holmes <br />
-          24/06/2021 15:00
+          {filme} <br />
+          {diaD} {hora}
         </h4>
       </div>
       <div>
         <h2>Ingressos</h2>
         <h4>
-          Assento 15
-          <br />
-          Assento 16
+         {seats.map((seat, index) => (
+            <Seat
+              key={index}
+              seat={seat}
+            />
+          ))} 
         </h4>
       </div>
       <div>
         <h2>Comprador</h2>
         <h4>
-          Nome: João da Silva Sauro <br />
-          CPF: 123.456.789-10
+          Nome: {nome} <br />
+          CPF: {cpf}
         </h4>
       </div>
       <div className="concluido_button">
