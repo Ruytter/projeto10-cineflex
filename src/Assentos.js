@@ -88,6 +88,7 @@ function Assentos() {
   if (newback.length === 0) {
     setNewback(back);
   }
+  console.log(assentos.name)
   return (
     <>
       <Divassentos>
@@ -128,6 +129,8 @@ function Assentos() {
       <Footer
         posterURL={assentos.movie.posterURL}
         fTitle={assentos.movie.title}
+        dia = {assentos.day.weekday}
+        hora = {assentos.name}
       />
     </>
   );
